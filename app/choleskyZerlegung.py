@@ -1,65 +1,64 @@
 import numpy as np
-import math
 
-def is_symmetric(A, tol=1e-8):
-    """Überprüft, ob die Matrix A symmetrisch ist."""
-    return np.allclose(A, A.T, atol=tol)
-
-def is_positive_definite(A):
-    """Überprüft, ob die Matrix A positiv definit ist."""
-    try:
-        _ = np.linalg.cholesky(A)
-        return True
-    except np.linalg.LinAlgError:
-        return False
-
-def choleski(A):
-    """Berechnet die Cholesky-Zerlegung der Matrix A, wenn sie symmetrisch und positiv definit ist."""
-    if not is_symmetric(A):
-        raise ValueError("Die Matrix ist nicht symmetrisch.")
-    
-    if not is_positive_definite(A):
-        raise ValueError("Die Matrix ist nicht positiv definit.")
-    
+def ist_symmetrisch(A):
+    """
+    Überprüft, ob die Matrix A symmetrisch ist.
+    """
     n = len(A)
-    L = np.zeros_like(A)
+    for i in range(n):
+        for j in range(n):
+            if A[i][j] != A[j][i]:
+                return False
+    return True
+
+def cholesky_zerlegung(A):
+    """
+    Berechnet die Cholesky-Zerlegung einer symmetrischen und positiv definiten Matrix.
+    Gibt die untere Dreiecksmatrix L zurück, so dass A = L * L.T.
+    """
+    n = len(A)
+    L = np.zeros((n, n))
 
     for k in range(n):
-        sum_k = sum(L[k][j] * L[k][j] for j in range(k))
-        L[k][k] = math.sqrt(A[k][k] - sum_k)
+        sum_k = sum(L[k, j] ** 2 for j in range(k))
+        L[k, k] = (A[k, k] - sum_k) ** 0.5
         for i in range(k + 1, n):
-            sum_ik = sum(L[i][j] * L[k][j] for j in range(k))
-            L[i][k] = (A[i][k] - sum_ik) / L[k][k]
-    
+            sum_ik = sum(L[i, j] * L[k, j] for j in range(k))
+            L[i, k] = (A[i, k] - sum_ik) / L[k, k]
+
     return L
 
-def main():
-    # Beispielmatrix
-    A = np.array([[4.0, -2.0, 2.0],
-                  [-2.0, 2.0, 4.0],
-                  [2.0, -4.0, 11.0]])
+def ist_positiv_definit(A):
+    """
+    Überprüft, ob die Matrix A positiv definit ist.
+    """
+    if not ist_symmetrisch(A):
+        return False
 
-    print("Eingabematrix A:")
-    print(A)
-
-    if is_symmetric(A):
-        print("Die Matrix ist symmetrisch.")
-    else:
-        print("Die Matrix ist nicht symmetrisch.")
-
-    if is_positive_definite(A):
-        print("Die Matrix ist positiv definit.")
-    else:
-        print("Die Matrix ist nicht positiv definit.")
-    
     try:
-        L = choleski(A)
-        print("Cholesky-Zerlegung L:")
-        print(L)
-        print("Überprüfung: L * L.T = A")
-        print(np.dot(L, L.T))
-    except ValueError as e:
-        print(e)
+        _ = cholesky_zerlegung(A)
+        return True
+    except:
+        return False
 
-if __name__ == "__main__":
-    main()
+# Beispiel für die Verwendung
+A = np.array([[4, 12, -16],
+              [12, 37, -43],
+              [-16, -43, 98]])
+
+# Überprüfung der Symmetrie
+if ist_symmetrisch(A):
+    print("Die Matrix ist symmetrisch.")
+else:
+    print("Die Matrix ist nicht symmetrisch.")
+
+# Überprüfung der positiven Definitheit und Cholesky-Zerlegung
+if ist_positiv_definit(A):
+    print("Die Matrix ist positiv definit.")
+    L = cholesky_zerlegung(A)
+    print("Cholesky-Zerlegung L:")
+    print(np.array(L))
+    print("Überprüfung: A = L * L.T")
+    print(np.dot(L, L.T))
+else:
+    print("Die Matrix ist nicht positiv definit.")
