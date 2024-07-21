@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def ist_symmetrisch(A):
     """
     Überprüft, ob die Matrix A symmetrisch ist.
@@ -10,6 +11,7 @@ def ist_symmetrisch(A):
             if A[i][j] != A[j][i]:
                 return False
     return True
+
 
 def cholesky_zerlegung(A):
     """
@@ -28,6 +30,7 @@ def cholesky_zerlegung(A):
 
     return L
 
+
 def ist_positiv_definit(A):
     """
     Überprüft, ob die Matrix A positiv definit ist.
@@ -40,6 +43,7 @@ def ist_positiv_definit(A):
         return True
     except:
         return False
+
 
 def householder_transformation(A):
     """
@@ -57,16 +61,17 @@ def householder_transformation(A):
         e1[0] = np.linalg.norm(x)
         u = x - e1
         v = u / np.linalg.norm(u)
-        
+
         # Create the Householder matrix
         Q_k = np.eye(m)
         Q_k[k:, k:] -= 2.0 * np.outer(v, v)
-        
+
         # Apply the transformation
         R = Q_k @ R
         Q = Q @ Q_k.T
 
     return Q, R
+
 
 def givens_rotation(A):
     """
@@ -78,21 +83,22 @@ def givens_rotation(A):
     R = A.copy()
 
     for j in range(n):
-        for i in range(m-1, j, -1):
+        for i in range(m - 1, j, -1):
             if R[i, j] != 0:
-                r = np.hypot(R[i-1, j], R[i, j])
-                c = R[i-1, j] / r
+                r = np.hypot(R[i - 1, j], R[i, j])
+                c = R[i - 1, j] / r
                 s = -R[i, j] / r
 
                 G = np.eye(m)
-                G[[i-1, i], [i-1, i]] = c
-                G[i-1, i] = -s
-                G[i, i-1] = s
+                G[[i - 1, i], [i - 1, i]] = c
+                G[i - 1, i] = -s
+                G[i, i - 1] = s
 
                 R = G @ R
                 Q = Q @ G.T
 
     return Q, R
+
 
 def solve_upper_triangular(R, b):
     """
@@ -101,13 +107,14 @@ def solve_upper_triangular(R, b):
     n = len(b)
     x = np.zeros_like(b)
 
-    for i in range(n-1, -1, -1):
+    for i in range(n - 1, -1, -1):
         x[i] = b[i]
-        for j in range(i+1, n):
+        for j in range(i + 1, n):
             x[i] -= R[i, j] * x[j]
         x[i] /= R[i, i]
 
     return x
+
 
 def solve_least_squares_householder(A, b):
     Q, R = householder_transformation(A)
@@ -119,6 +126,7 @@ def solve_least_squares_householder(A, b):
     x = solve_upper_triangular(R[:n, :], b1)
     return x
 
+
 def solve_least_squares_givens(A, b):
     Q, R = givens_rotation(A)
     Q_T_b = Q.T @ b
@@ -128,6 +136,7 @@ def solve_least_squares_givens(A, b):
     # Solve the upper triangular system Rx = b1
     x = solve_upper_triangular(R[:n, :], b1)
     return x
+
 
 # Beispiel
 A = np.array([[2, 1, -1], [1, -2, 3], [3, 2, 1]], dtype=float)

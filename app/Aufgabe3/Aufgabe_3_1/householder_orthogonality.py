@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def householder_transformation(A):
     """
     Führt die Householder-Transformation auf der Matrix A durch.
@@ -16,16 +17,17 @@ def householder_transformation(A):
         e1[0] = np.linalg.norm(x)
         u = x - e1
         v = u / np.linalg.norm(u)
-        
+
         # Create the Householder matrix
         Q_k = np.eye(m)
         Q_k[k:, k:] -= 2.0 * np.outer(v, v)
-        
+
         # Apply the transformation
         R = Q_k @ R
         Q = Q @ Q_k.T
 
     return Q, R
+
 
 def solve_least_squares_householder(A, b):
     Q, R = householder_transformation(A)
@@ -36,6 +38,7 @@ def solve_least_squares_householder(A, b):
     # Solve the upper triangular system Rx = b1
     x = np.linalg.solve(R[:n, :], b1)
     return x
+
 
 # Beispiel
 A = np.array([[2, 1, -1], [1, -2, 3], [3, 2, 1]], dtype=float)

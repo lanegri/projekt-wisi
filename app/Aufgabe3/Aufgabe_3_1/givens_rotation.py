@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def givens_rotation(A):
     """
     Führt die Givens-Rotation auf der Matrix A durch.
@@ -10,21 +11,22 @@ def givens_rotation(A):
     R = A.copy()
 
     for j in range(n):
-        for i in range(m-1, j, -1):
+        for i in range(m - 1, j, -1):
             if R[i, j] != 0:
-                r = np.hypot(R[i-1, j], R[i, j])
-                c = R[i-1, j] / r
+                r = np.hypot(R[i - 1, j], R[i, j])
+                c = R[i - 1, j] / r
                 s = -R[i, j] / r
 
                 G = np.eye(m)
-                G[[i-1, i], [i-1, i]] = c
-                G[i-1, i] = -s
-                G[i, i-1] = s
+                G[[i - 1, i], [i - 1, i]] = c
+                G[i - 1, i] = -s
+                G[i, i - 1] = s
 
                 R = G @ R
                 Q = Q @ G.T
 
     return Q, R
+
 
 def solve_least_squares_givens(A, b):
     Q, R = givens_rotation(A)
@@ -35,6 +37,7 @@ def solve_least_squares_givens(A, b):
     # Solve the upper triangular system Rx = b1
     x = np.linalg.solve(R[:n, :], b1)
     return x
+
 
 # Beispiel
 A = np.array([[2, 1, -1], [1, -2, 3], [3, 2, 1]], dtype=float)
