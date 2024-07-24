@@ -3,8 +3,7 @@ import numpy as np
 
 def check_is_symmetric(in_matrix) -> bool:
     """
-    Überprüft, ob die Matrix A symmetrisch ist.
-    NumPy: return np.allclose(A, A.T)
+        Überprüft, ob die Matrix A symmetrisch ist.
     """
     n = len(in_matrix)
     for i in range(n):
@@ -18,7 +17,7 @@ def check_definiteness(in_matrix) -> str:
     # Berechne die Eigenwerte der Matrix
     eigenvalues = np.linalg.eigvals(in_matrix)
 
-    # Überprüfe die Definitheit anhand der Eigenwerte
+    # Überprüfe die Definite anhand der Eigenwerte
     if np.all(eigenvalues > 0):
         return "positiv definit"
     elif np.all(eigenvalues < 0):
@@ -35,6 +34,6 @@ def check_positiv_definit(in_matrix) -> bool:
     # Berechne die Eigenwerte der Matrix
     eigenvalues = np.linalg.eigvals(in_matrix)
 
-    # Überprüfe die Positiv Definitheit anhand der Eigenwerte
+    # Überprüfe die Positiv Definite anhand der Eigenwerte
     return True if np.all(eigenvalues > 0) else False
 

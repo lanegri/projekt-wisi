@@ -5,7 +5,7 @@ from app.Aufgabe2.Aufgabe_2_1.cholesky_decomposition import cholesky_decompositi
 
 def solve_upper_triangular(R, b):
     """
-    Löst das Gleichungssystem Rx = b für eine obere Dreiecksmatrix R.
+        Löst das Gleichungssystem Rx = b für eine obere Dreiecksmatrix R.
     """
     n = len(b)
     x = np.zeros_like(b)
@@ -21,7 +21,7 @@ def solve_upper_triangular(R, b):
 
 def solve_lower_triangular(L, b):
     """
-    Löst das Gleichungssystem Lx = b für eine untere Dreiecksmatrix L.
+        Löst das Gleichungssystem Lx = b für eine untere Dreiecksmatrix L.
     """
     n = len(b)
     x = np.zeros_like(b)
@@ -35,9 +35,9 @@ def solve_lower_triangular(L, b):
     return x
 
 
-def solve_least_squares_normal_equations(A, b):
+def solve_with_gauss_normal_equations(A, b):
     """
-    Löst das lineare Ausgleichsproblem durch Lösen der Gaußschen Normalengleichungen.
+        Löst das lineare Ausgleichsproblem durch Lösen der Gaußschen Normalengleichungen.
     """
     # Berechne A^T * A und A^T * b
     A_T_A = A.T @ A
@@ -53,12 +53,4 @@ def solve_least_squares_normal_equations(A, b):
     # Schritt 2: Löse L^T * x = y
     x = solve_upper_triangular(L.T, y)
 
-    return x
-
-
-# Beispiel
-# A = np.array([[2, 1, -1], [1, -2, 3], [3, 2, 1]], dtype=float)
-# b = np.array([1, -2, 7], dtype=float)
-#
-# x = solve_least_squares_normal_equations(A, b)
-# print("Lösung des linearen Ausgleichsproblems:", x)
+    return L, y, x
