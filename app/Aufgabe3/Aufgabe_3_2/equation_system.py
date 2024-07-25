@@ -1,11 +1,11 @@
 import numpy as np
 
 from app.Aufgabe2.Aufgabe_2_2.gauss_normal_equations import solve_upper_triangular
-from app.Aufgabe3.Aufgabe_3_1.transform_system_of_equations import householder_transformation, givens_rotation
+from app.Aufgabe3.Aufgabe_3_1.transform_system_of_equations import q_r_with_householder_transformation, q_r_with_givens_rotation
 
 
 def solve_least_squares_householder(matrix_A, matrix_b):
-    Q, R = householder_transformation(matrix_A)
+    Q, R = q_r_with_householder_transformation(matrix_A)
     Q_T_b = Q.T @ matrix_b
     n = matrix_A.shape[1]
     b1 = Q_T_b[:n]
@@ -16,7 +16,7 @@ def solve_least_squares_householder(matrix_A, matrix_b):
 
 
 def solve_least_squares_givens(matrix_A, matrix_b):
-    Q, R = givens_rotation(matrix_A)
+    Q, R = q_r_with_givens_rotation(matrix_A)
     Q_T_b = Q.T @ matrix_b
     n = matrix_A.shape[1]
     b1 = Q_T_b[:n]

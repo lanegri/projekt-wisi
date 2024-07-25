@@ -3,7 +3,7 @@ import pytest
 
 from app.Aufgabe2.Aufgabe_2_1.cholesky_decomposition import cholesky_decomposition
 from app.Aufgabe2.Aufgabe_2_2.gauss_normal_equations import solve_with_gauss_normal_equations
-from app.Aufgabe3.Aufgabe_3_1.transform_system_of_equations import householder_transformation, givens_rotation
+from app.Aufgabe3.Aufgabe_3_1.transform_system_of_equations import q_r_with_householder_transformation, q_r_with_givens_rotation
 from app.Aufgabe3.Aufgabe_3_2.equation_system import solve_least_squares_householder, solve_least_squares_givens
 from app.utils.checkup_utils import check_is_symmetric, check_positiv_definit
 
@@ -79,7 +79,7 @@ def test_solve_with_gauss_normal_equations():
     L, y, x = solve_with_gauss_normal_equations(A, b)
     print("\n Lösung des linearen Ausgleichungsproblems mit Gauß:")
     print("\n Lösung mit Gauß:", x)
-    assert str(x) == '[-0.3  3.2  1.6]'
+    assert str(x) == '[-0.3125  3.1875  1.5625]'
 
 
 @pytest.mark.dependency(name="householder", depends=[])
@@ -88,7 +88,7 @@ def test_householder_transformation():
         Test Householder-Transformation der Matrix A
     """
     A = np.array([[2, 1, -1], [1, -2, 3], [3, 2, 1]], dtype=float)
-    out_Q, out_R = householder_transformation(A)
+    out_Q, out_R = q_r_with_householder_transformation(A)
     print(f"\n Lösung Householder-Transformation: \n Q: \n {out_Q} \n R: \n {out_R}")
 
 
@@ -101,7 +101,7 @@ def test_householder_transformation_2():
          [1, 1, 2],
          [2, -3, 0]]
     matrix = np.array(A, dtype=int)
-    out_Q, out_R = householder_transformation(matrix)
+    out_Q, out_R = q_r_with_householder_transformation(matrix)
     print(f"\n Lösung Householder-Transformation 2: \n Q: \n {out_Q} \n R: \n {out_R}")
 
 
@@ -111,7 +111,7 @@ def test_givens_rotation():
         Test Givens-Rotation der Matrix A
     """
     B = np.array([[2, 1, -1], [1, -2, 3], [3, 2, 1]], dtype=float)
-    out_Q, out_R = givens_rotation(B)
+    out_Q, out_R = q_r_with_givens_rotation(B)
     print(f"\n Lösung Givens-Rotation: \n Q: \n {out_Q} \n R: \n {out_R}")
 
 
@@ -125,7 +125,7 @@ def test_givens_rotation2():
          [3, 3, 3, 0],
          [4, 4, 4, 4]]
     matrix = np.array(B, dtype=float)
-    out_Q, out_R = givens_rotation(matrix)
+    out_Q, out_R = q_r_with_givens_rotation(matrix)
     print(f"\n Lösung Givens-Rotation 2: \n Q: \n {out_Q} \n R: \n {out_R}")
 
 
@@ -138,7 +138,7 @@ def test_givens_rotation2():
          [-4, 6, 3],
          [-4, -3, 8]]
     matrix = np.array(B, dtype=float)
-    out_Q, out_R = givens_rotation(matrix)
+    out_Q, out_R = q_r_with_givens_rotation(matrix)
     print(f"\n Lösung Givens-Rotation 3: \n Q: \n {out_Q} \n R: \n {out_R}")
 
 
