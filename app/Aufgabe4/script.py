@@ -151,7 +151,7 @@ def out_least_squares_methods():
         print(f"Beispiel {i + 1}:")
 
         try:
-            x_gauss_normal = solve_with_gauss_normal_equations(A, b)
+            L, y, x_gauss_normal = solve_with_gauss_normal_equations(A, b)
             residuum_normal = np.linalg.norm(A @ x_gauss_normal - b)
             print(f"Lösung mit Normalengleichungen: {x_gauss_normal}")
             print(f"Residuum: {residuum_normal}")

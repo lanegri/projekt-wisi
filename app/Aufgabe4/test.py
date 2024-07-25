@@ -9,7 +9,6 @@ from app.utils.checkup_utils import check_is_symmetric, check_positiv_definit
 
 np.set_printoptions(precision=5, suppress=True)
 
-
 np.seterr(divide='ignore', invalid='ignore')
 
 
@@ -69,6 +68,7 @@ def test_cholesky_decomposition():
     assert equal is True
 
 
+@pytest.mark.dependency(name="gauss_normal", depends=["cholesky"])
 def test_solve_with_gauss_normal_equations():
     """
         Test Gauß linearen Ausgleichung der Matrix A
@@ -140,6 +140,7 @@ def test_givens_rotation2():
     matrix = np.array(B, dtype=float)
     out_Q, out_R = givens_rotation(matrix)
     print(f"\n Lösung Givens-Rotation 3: \n Q: \n {out_Q} \n R: \n {out_R}")
+
 
 @pytest.mark.dependency(name="equation_with_householder", depends=["householder"])
 def test_equation_with_householder_transformation():
