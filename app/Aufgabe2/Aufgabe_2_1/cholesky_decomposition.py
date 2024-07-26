@@ -10,9 +10,13 @@ def cholesky_decomposition(in_matrix):
 
     if not check_is_symmetric(in_matrix):
         raise ValueError("Die angegebene Matrix ist nicht symmetrisch.")
+    else:
+        print('Matrix A_T_A is symmetrisch')
 
     if not check_positiv_definit(in_matrix) != 'positiv definit':
         raise ValueError("Die angegebene Matrix ist nicht positiv definit.")
+    else:
+        print('Matrix A_T_A is positiv definiert')
 
     # Anzahl der Zeilen (und Spalten) der quadratischen Matrix
     n = in_matrix.shape[0]
