@@ -76,7 +76,7 @@ def test_solve_with_gauss_normal_equations():
     A = np.array([[2, 1, -1], [1, -2, 3], [3, 2, 1]], dtype=float)
     b = np.array([1, -2, 7], dtype=float)
 
-    L, y, x = solve_with_gauss_normal_equations(A, b)
+    _, _, L, y, x = solve_with_gauss_normal_equations(A, b)
     print("\n Lösung des linearen Ausgleichungsproblems mit Gauß:")
     print("\n Lösung mit Gauß:", x)
     assert str(x) == '[-0.3125  3.1875  1.5625]'

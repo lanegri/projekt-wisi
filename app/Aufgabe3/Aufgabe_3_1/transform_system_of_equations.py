@@ -98,6 +98,7 @@ def q_r_with_givens_rotation(A):
 
     return Q, R
 
+np.set_printoptions(precision=1, suppress=True)
 
 # Beispiel
 print('Beispiel 1')
@@ -116,7 +117,7 @@ print(f"Q: \n {Q_A_G}")
 print(f"R: \n {R_A_G}")
 
 print('Beispiel 2')
-# np.set_printoptions(precision=1, suppress=True)
+
 # Input matrix
 B = np.array([
     [3, -6],
@@ -132,9 +133,9 @@ print(f"Q: \n {Q_A_H}")
 print(f"R: \n {R_A_H}")
 
 B = np.array([
-    [2, -1, -2],
-    [-4, 6, 3],
-    [-4, -2, 8]
+    [3, -6],
+    [4, -8],
+    [0, 1]
 ], dtype=float)
 
 # Compute QR decomposition using Givens rotation
