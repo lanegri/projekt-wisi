@@ -26,7 +26,7 @@ def householder_vector(a_k):
     return v
 
 
-def apply_householder(m, v):
+def householder_matrix(m, v):
     """
         Householder Matrix H_k mit Hilfe von Vektor v berechnen.
     """
@@ -49,7 +49,7 @@ def q_r_with_householder_transformation(A):
         v = householder_vector(a_k)
 
         # Householder Matrix H_k berechnen
-        H_k = apply_householder(m - k, v)
+        H_k = householder_matrix(m - k, v)
         # H_k expandieren
         H = np.eye(m)
         H[k:, k:] = H_k
@@ -58,7 +58,7 @@ def q_r_with_householder_transformation(A):
         R = H @ R
         Q = Q @ H.T
 
-    return matrix_to_fractions(Q), matrix_to_fractions(R)
+    return Q, R
 
 
 def givens_rotation(a, b):
@@ -96,41 +96,40 @@ def q_r_with_givens_rotation(A):
                 R = G @ R
                 Q = Q @ G.T
 
-    return matrix_to_fractions(Q), matrix_to_fractions(R)
+    return Q, R
+
+
+# Beispiel
+print('Beispiel 1')
+A = np.array([[2, 1, -1], [1, -2, 3], [3, 2, 1]], dtype=float)
+Q_A_H, R_A_H = q_r_with_householder_transformation(A)
+print("Lösung mit Householder-Orthogonalisierung:")
+print(f"Q: \n {Q_A_H}")
+print(f"R: \n {R_A_H}")
 
 
 # Beispiel
 A = np.array([[2, 1, -1], [1, -2, 3], [3, 2, 1]], dtype=float)
-out_Q, out_R = q_r_with_householder_transformation(A)
-print("Lösung mit Householder-Orthogonalisierung:")
-print(f"Q: \n {out_Q}")
-print(f"R: \n {out_R}")
-
-
-# Beispiel
-B = np.array([[2, 1, -1], [1, -2, 3], [3, 2, 1]], dtype=float)
-out_Q, out_R = q_r_with_givens_rotation(B)
+Q_A_G, R_A_G = q_r_with_givens_rotation(A)
 print("Lösung mit Givens-Rotation:")
-print(f"Q: \n {out_Q}")
-print(f"R: \n {out_R}")
-np.set_printoptions(precision=1, suppress=True)
+print(f"Q: \n {Q_A_G}")
+print(f"R: \n {R_A_G}")
+
+print('Beispiel 2')
+# np.set_printoptions(precision=1, suppress=True)
 # Input matrix
-A = np.array([
+B = np.array([
     [3, -6],
     [4, -8],
     [0, 1]
 ], dtype=float)
 
 # Print input matrix
-print('The A matrix is equal to:\n', A)
-# Compute QR decomposition using Givens rotation
-(QA, RA) = q_r_with_givens_rotation(A)
-
-# Print orthogonal matrix Q
-print('\n The Q matrix is equal to:\n', QA)
-
-# Print upper triangular matrix R
-print('\n The R matrix is equal to:\n', RA)
+print('B = :\n', B)
+print("Lösung mit Householder-Orthogonalisierung:")
+Q_B_H, R_B_H = q_r_with_householder_transformation(A)
+print(f"Q: \n {Q_A_H}")
+print(f"R: \n {R_A_H}")
 
 B = np.array([
     [2, -1, -2],
@@ -138,27 +137,11 @@ B = np.array([
     [-4, -2, 8]
 ], dtype=float)
 
-# Print input matrix
-print('The A matrix is equal to:\n', B)
 # Compute QR decomposition using Givens rotation
-(QB, RB) = q_r_with_givens_rotation(B)
+Q_B_G, R_B_G = q_r_with_givens_rotation(B)
 
 # Print orthogonal matrix Q
-print('\n The Q matrix is equal to:\n', QB)
+print('\n Q = \n', Q_B_G)
 
 # Print upper triangular matrix R
-print('\n The R matrix is equal to:\n', RB)
-
-
-# Beispiel zur Nutzung
-C = np.array([[1, 2, 4],
-              [3, 4, 5],
-              [5, 6, 7]])
-print('The C matrix is equal to:\n', C)
-QC, RC = q_r_with_householder_transformation(C)
-Q_frac = QC
-R_frac = RC
-print("Matrix Q:")
-print(Q_frac)
-print("Matrix R:")
-print(R_frac)
+print('\n R = \n', R_B_G)

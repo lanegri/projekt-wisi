@@ -1,6 +1,7 @@
 import numpy as np
 
 from app.Aufgabe2.Aufgabe_2_1.cholesky_decomposition import cholesky_decomposition
+from app.utils.checkup_utils import check_is_symmetric, check_positiv_definit
 
 
 def solve_upper_triangular(R, b):
@@ -53,4 +54,26 @@ def solve_with_gauss_normal_equations(A, b):
     # Schritt 2: Löse L^T * x = y
     x = solve_upper_triangular(L.T, y)
 
-    return L, y, x
+    return A_T_A, A_T_b, L, y, x
+
+
+print("Lösung des linearen Ausgleichungsproblems mit Gauß: \n")
+
+
+def out_solve_with_gauss_normal_equations():
+    """
+        Test Gauß linearen Ausgleichung der Matrix A
+    """
+    A = np.array([[2, 1, -1], [1, -2, 3], [3, 2, 1]], dtype=float)
+    b = np.array([1, -2, 7], dtype=float)
+
+    A_T_A, A_T_b, L, y, x = solve_with_gauss_normal_equations(A, b)
+
+    print(f"A_T_A = {A_T_A} \n")
+    print(f"A_T_b = {A_T_b} \n")
+    print(f"Cholesky-Zerlegung von A_T_A = {L} \n")
+    print(f"Vorwärt einsetzen = {y} \n")
+    print("Rückwärts einsetzen / Lösung mit Gauß:", x)
+
+
+out_solve_with_gauss_normal_equations()
